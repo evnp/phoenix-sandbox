@@ -2,7 +2,6 @@
 
 ```elixir
 Mix.install([
-  {:phoenix, "~> 1.7.14"},
   {:phoenix_playground, "~> 0.1.6"},
   {:temple, "~> 0.14.0"},
 ], [
@@ -19,7 +18,7 @@ Mix.install([
 ```elixir
 defmodule DemoLive.Components.TestLiveComponent do
   use Phoenix.LiveComponent
-  
+
   import Temple
   import Phoenix.LiveView.TagEngine, only: [component: 3, inner_block: 2]
 
@@ -130,7 +129,7 @@ defmodule DemoLive do
   end
 
   def render(assigns) do
-    temple do      
+    temple do
       button "phx-click": show_modal("test-modal"), do: "Show test modal"
       c &modal/1, id: "test-modal" do
         c &live_component/1,
@@ -138,14 +137,6 @@ defmodule DemoLive do
           module: DemoLive.Components.TestLiveComponent
       end
     end
-  end
-
-  def handle_event("inc", _params, socket) do
-    {:noreply, assign(socket, count: socket.assigns.count + 1)}
-  end
-
-  def handle_event("dec", _params, socket) do
-    {:noreply, assign(socket, count: socket.assigns.count - 1)}
   end
 end
 
