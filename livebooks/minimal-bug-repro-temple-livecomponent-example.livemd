@@ -125,7 +125,7 @@ defmodule DemoLive do
   import DemoLive.CoreComponents
 
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, count: 0)}
+    {:ok, socket}
   end
 
   def render(assigns) do
@@ -138,6 +138,20 @@ defmodule DemoLive do
       end
     end
   end
+
+  # def render(assigns) do
+  #   temple do
+  #     button "phx-click": show_modal("test-modal"), do: "Show test modal"
+  #     ~H"""
+  #     <.modal id="test-modal">
+  #       <.live_component
+  #         id="test-live-component"
+  #         module={DemoLive.Components.TestLiveComponent}
+  #       />
+  #     </.modal>
+  #     """
+  #   end
+  # end
 end
 
 PhoenixPlayground.start(live: DemoLive)

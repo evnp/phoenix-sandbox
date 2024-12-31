@@ -36,7 +36,7 @@ defmodule DemoLive do
   import Phoenix.LiveView.TagEngine, only: [component: 3, inner_block: 2]
 
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, count: 0)}
+    {:ok, socket}
   end
 
   def render(assigns) do
