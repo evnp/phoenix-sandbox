@@ -1,0 +1,42 @@
+# Minimal Working Temple<>LiveComponent Example
+
+```elixir
+Mix.install([
+  {:phoenix_playground, "~> 0.1.6"},
+  {:temple, "~> 0.14.0"},
+], [
+  config: [
+    temple: [
+      engine: Phoenix.LiveView.Engine
+    ]
+  ]
+])
+```
+
+## Section
+
+```elixir
+defmodule DemoLive do
+  use Phoenix.LiveView
+
+  import Temple
+  import Phoenix.LiveView.TagEngine, only: [component: 3, inner_block: 2]
+
+  def mount(_params, _session, socket) do
+    {:ok, assign(socket, count: 0)}
+  end
+
+  def render(assigns) do
+    temple do
+      h3 class: "main" do
+        "Some lovely content in the Temple."
+        ~H"""
+        <button>Here's some HEEx in a button.</button>
+        """
+      end
+    end
+  end
+end
+
+PhoenixPlayground.start(live: DemoLive)
+```
