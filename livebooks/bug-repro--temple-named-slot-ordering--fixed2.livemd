@@ -1,0 +1,82 @@
+# Minimal Working Temple<>LiveComponent Example
+
+```elixir
+Mix.install([
+  {:phoenix_playground, "~> 0.1.6"},
+  {:temple, "~> 0.14.1"},
+], [
+  config: [
+    temple: [
+      engine: Phoenix.LiveView.Engine
+    ]
+  ]
+])
+```
+
+## Section
+
+```elixir
+defmodule DemoLive do
+  use Phoenix.LiveView
+
+  import Temple
+  import Phoenix.LiveView.TagEngine, only: [component: 3, inner_block: 2]
+
+  def mount(_params, _session, socket) do
+    {:ok, assign(socket, count: 0)}
+  end
+
+  def card(assigns) do
+    temple do
+      div class: "card" do
+        header class: "card-header", style: "background-color: @f5f5f5" do
+          p class: "card-header-title" do
+            slot @header
+          end
+        end
+
+        div class: "card-content" do
+          div class: "content" do
+            slot @inner_block
+          end
+        end
+
+        footer class: "card-footer", style: "background-color: #f5f5f5" do
+          slot @footer
+        end
+      end
+    end
+  end
+
+  def render(assigns) do
+    temple do
+      h3 class: "main" do
+        "Some lovely content in the Temple."
+        ~H"""
+        <button>Here's some HEEx in a button.</button>
+        """
+      end
+
+      c &card/1 do
+        slot :header do
+          "A simple card component"
+        end
+
+        "This example demonstrates how to create components with multiple, named slots"
+
+        # Getting rid of this link component call also resolves the issue:
+        # c &link/1, href: "#", class: "card-footer-item" do
+        #   "A Test Link using Phoenix link component"
+        # end
+
+        slot :footer do
+          a href: "#", class: "card-footer-item", do: "Footer Item 1"
+          a href: "#", class: "card-footer-item", do: "Footer Item 2"
+        end
+      end
+    end
+  end
+end
+
+PhoenixPlayground.start(live: DemoLive)
+```
