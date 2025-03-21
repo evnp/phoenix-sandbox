@@ -1,0 +1,53 @@
+# Minimal Working Temple<>LiveComponent Example
+
+```elixir
+Mix.install([
+  {:phoenix_playground, "~> 0.1.6"},
+  {:temple, "~> 0.14.0"},
+], [
+  config: [
+    temple: [
+      engine: Phoenix.LiveView.Engine
+    ]
+  ]
+])
+```
+
+## Section
+
+```elixir
+defmodule DemoLive do
+  use Phoenix.LiveView
+
+  import Temple
+  import Phoenix.LiveView.TagEngine, only: [component: 3, inner_block: 2]
+
+  def mount(_params, _session, socket) do
+    {:ok, assign(socket, count: 0)}
+  end
+
+  def mycomponent(assigns) do
+    temple do
+      ~s[<div>#{@assigned_value}</div>]
+      div do
+       hr # or some other void tag
+      end
+    end
+  end
+
+  def render(assigns) do
+    temple do
+      div do
+        "This is some inline text"
+        c &mycomponent/1, assigned_value: "something"
+        if true do
+          " this will never render"
+          c &mycomponent/1, assigned_value: "something else"
+        end
+      end
+    end
+  end
+end
+
+PhoenixPlayground.start(live: DemoLive)
+```
